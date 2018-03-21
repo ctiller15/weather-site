@@ -1,5 +1,6 @@
 const body = document.querySelector("body");
 const homeElement = document.querySelector(".home-element");
+const weatherElement = document.querySelector(".weather-element");
 
 const searchInput = document.querySelector(".search-query");
 const API_KEY = 'b262969eaeb6ea12d97134e6a7589627';
@@ -14,6 +15,7 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
   console.log(`latitude: ${searchParam}, longitude: ${opt}`);
 
   let weatherSection = document.createElement("section");
+
   let searchQuery = `http://api.openweathermap.org/data/2.5/weather?${ opt ? `lat=${searchParam}&lon=${opt}` : !isNaN(searchParam) ? `zip=${searchParam}` : `q=${searchParam}` }&appid=${API_KEY}&units=imperial`;
 
   fetch(searchQuery)
@@ -26,10 +28,10 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
       handleData(data, homeElement);
     } else {
       handleData(data, weatherSection);
+      weatherElement.appendChild(weatherSection);
     }
   });
 
-  body.appendChild(weatherSection);
 }
 
 const getWeather = () => {
@@ -61,14 +63,17 @@ const createAppendElement = (data, section) => {
   let temperature = document.createElement("p");
   let pressure = document.createElement("p");
   let humidity = document.createElement("p");
+  let cloudCover = document.createElement("p");
 
   temperature.textContent = `${data.main.temp} degrees fahrenheit`;
   pressure.textContent = `${data.main.pressure} hPa`;
-  humidity.textContent = `${data.main.humidity} %`;
+  humidity.textContent = `${data.main.humidity} % humidity`;
+  cloudCover.textContent = `${data.clouds.all}% cloud cover`
 
   weatherInfo.appendChild(temperature);
   weatherInfo.appendChild(pressure);
   weatherInfo.appendChild(humidity);
+  weatherInfo.appendChild(cloudCover);
   // The text
   let weatherText = document.createElement("p");
   weatherText.textContent = JSON.stringify(data);
@@ -76,7 +81,7 @@ const createAppendElement = (data, section) => {
   weatherDisplay.appendChild(weatherHeader);
   weatherDisplay.appendChild(weatherSub);
   weatherDisplay.appendChild(weatherInfo);
-  weatherDisplay.appendChild(weatherText);
+  // weatherDisplay.appendChild(weatherText);
   section.appendChild(weatherDisplay);
 }
 
@@ -84,7 +89,7 @@ const main = () => {
   if(tempData) {
     let weatherSection = document.createElement("section");
     handleData(tempData, weatherSection);
-    body.appendChild(weatherSection);
+    weatherElement.appendChild(weatherSection);
     console.log("All done!");
   }
 
