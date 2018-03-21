@@ -4,6 +4,7 @@ const weatherElement = document.querySelector(".weather-element");
 
 const searchInput = document.querySelector(".search-query");
 const API_KEY = 'b262969eaeb6ea12d97134e6a7589627';
+const API_KEY_GOOGLE = 'AIzaSyCRzPHmUs7xjG8FAa1Z8M6XT_WLmErujHs';
 
 // Handling the local storage and keeping track of the last search.
 const localStorage = window.localStorage;
@@ -15,7 +16,19 @@ let searchTimeOut;
 // tempData.addEventListener('keypress', () => {
 
 // });
-const checkQuery = () => {
+const checkQuery = (event) => {
+  console.log(event.target.value);
+  // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchInput.value}&types=(cities)&key=AIzaSyBtxEFPAkE58globccj3AP4vkgj7KMWUMI
+  let testStr = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${event.target.value}&types=(cities)&key=${API_KEY_GOOGLE}`
+  console.log(testStr);
+  fetch(testStr)
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  });
+
   if(searchTimeOut !== undefined) {
     clearTimeout(searchTimeOut);
     searchTimeOut = undefined;
@@ -23,6 +36,8 @@ const checkQuery = () => {
   searchTimeOut = setTimeout(() => {
     getWeather();
   }, 5000);
+
+
 }
 
 // To output it to the screen, we just run the 'createElement' function again.
