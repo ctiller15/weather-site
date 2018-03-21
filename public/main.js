@@ -9,6 +9,22 @@ const API_KEY = 'b262969eaeb6ea12d97134e6a7589627';
 const localStorage = window.localStorage;
 let tempData = JSON.parse(localStorage.getItem('lastSearch'));
 
+// Starting a timer.
+let searchTimeOut;
+
+// tempData.addEventListener('keypress', () => {
+
+// });
+const checkQuery = () => {
+  if(searchTimeOut !== undefined) {
+    clearTimeout(searchTimeOut);
+    searchTimeOut = undefined;
+  }
+  searchTimeOut = setTimeout(() => {
+    getWeather();
+  }, 5000);
+}
+
 // To output it to the screen, we just run the 'createElement' function again.
 
 const fetchAPIData = (searchParam, opt, isMainElement) => {
@@ -35,6 +51,7 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
 }
 
 const getWeather = () => {
+  clearTimeout(searchTimeOut);
   let searchParam = searchInput.value;
 
   fetchAPIData(searchParam);
