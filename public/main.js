@@ -46,7 +46,37 @@ const handleData = (data, element) => {
 
 const createAppendElement = (data, section) => {
   let weatherDisplay = document.createElement("section");
-  weatherDisplay.textContent = JSON.stringify(data);
+
+  // The header
+  let weatherHeader = document.createElement("h2");
+  weatherHeader.textContent = data.name;
+
+  // The sub-header
+  let weatherSub = document.createElement("h3");
+  weatherSub.textContent = data.weather[0].description;
+
+  // The section that creates the weather information.
+  let weatherInfo = document.createElement("section");
+
+  let temperature = document.createElement("p");
+  let pressure = document.createElement("p");
+  let humidity = document.createElement("p");
+
+  temperature.textContent = `${data.main.temp} degrees fahrenheit`;
+  pressure.textContent = `${data.main.pressure} hPa`;
+  humidity.textContent = `${data.main.humidity} %`;
+
+  weatherInfo.appendChild(temperature);
+  weatherInfo.appendChild(pressure);
+  weatherInfo.appendChild(humidity);
+  // The text
+  let weatherText = document.createElement("p");
+  weatherText.textContent = JSON.stringify(data);
+
+  weatherDisplay.appendChild(weatherHeader);
+  weatherDisplay.appendChild(weatherSub);
+  weatherDisplay.appendChild(weatherInfo);
+  weatherDisplay.appendChild(weatherText);
   section.appendChild(weatherDisplay);
 }
 
