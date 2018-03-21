@@ -8,7 +8,7 @@ const fetchAPIData = (searchParam, opt) => {
 
   let weatherSection = document.createElement("section");
 
-  fetch(`http://api.openweathermap.org/data/2.5/weather?${ opt ? `lat=${searchParam}&lon=${opt}` : !isNaN(searchParam) ? `zip=${searchParam}` : `q=${searchParam}` }&appid=${API_KEY}`)
+  fetch(`http://api.openweathermap.org/data/2.5/weather?${ opt ? `lat=${searchParam}&lon=${opt}` : !isNaN(searchParam) ? `zip=${searchParam}` : `q=${searchParam}` }&appid=${API_KEY}&units=imperial`)
   .then((response) => {
     return response.json();
   })
@@ -35,7 +35,6 @@ const main = () => {
   if("geolocation" in navigator) {
     console.log("We can do it!");
     navigator.geolocation.getCurrentPosition((position) => {
-      // console.log(position.coords.latitude.toFixed(9), position.coords.longitude.toFixed(9));
       fetchAPIData(position.coords.latitude.toFixed(9), position.coords.longitude.toFixed(9));
     });
   } else {
