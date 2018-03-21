@@ -39,8 +39,9 @@ const getWeather = () => {
 }
 
 const handleData = (data, element) => {
+  createAppendElement(data, element);
   localStorage.setItem("lastSearch", JSON.stringify(data));
-  createAppendElement(data, element);  
+
 }
 
 const createAppendElement = (data, section) => {
@@ -50,6 +51,13 @@ const createAppendElement = (data, section) => {
 }
 
 const main = () => {
+  if(tempData) {
+    let weatherSection = document.createElement("section");
+    handleData(tempData, weatherSection);
+    body.appendChild(weatherSection);
+    console.log("All done!");
+  }
+
   if("geolocation" in navigator) {
     console.log("We can do it!");
     navigator.geolocation.getCurrentPosition((position) => {
