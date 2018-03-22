@@ -17,7 +17,7 @@
         </section>
 
       <form class="search-form" onSubmit="return false;">
-        <input type="text" class="search-query" onkeypress="checkQuery(event)">
+        <input type="text" class="search-query" oninput="checkQuery(event)">
         <button type="button" onclick="getWeather()">Search!</button>
       </form>
 
@@ -25,7 +25,7 @@
 
 
     <section class="search-results">
-      <h2>Other places:</h2>
+      <h2>Last searches:</h2>
 
       <section class="weather-element">
 

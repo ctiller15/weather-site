@@ -17,18 +17,7 @@ let searchTimeOut;
 
 // });
 const checkQuery = (event) => {
-  console.log(event.target.value);
-  // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchInput.value}&types=(cities)&key=AIzaSyBtxEFPAkE58globccj3AP4vkgj7KMWUMI
-  let testStr = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${event.target.value}&types=(cities)&key=${API_KEY_GOOGLE}`
-  console.log(testStr);
   let autoComplete = new google.maps.places.Autocomplete(searchInput);
-  // fetch(testStr)
-  // .then((response) => {
-  //   return response.json();
-  // })
-  // .then((data) => {
-  //   console.log(data);
-  // });
 
   if(searchTimeOut !== undefined) {
     clearTimeout(searchTimeOut);
@@ -44,7 +33,7 @@ const checkQuery = (event) => {
 // To output it to the screen, we just run the 'createElement' function again.
 
 const fetchAPIData = (searchParam, opt, isMainElement) => {
-  console.log(`latitude: ${searchParam}, longitude: ${opt}`);
+  // console.log(`latitude: ${searchParam}, longitude: ${opt}`);
 
   let weatherSection = document.createElement("section");
 
@@ -52,11 +41,13 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
 
   fetch(searchQuery)
   .then((response) => {
-    console.log(response);
+    // console.log(response);
     if(response.status !== 200) {
-      throw Error(response.statusText);
-    }
+      throw new Error(response.statusText);
+    } else {
       return response.json();
+    }
+
   })
   .then((data) => {
     if(isMainElement) {
@@ -66,7 +57,7 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
       handleData(data, weatherSection);
       weatherElement.appendChild(weatherSection);
     }
-  }).catch( (error) => console.log(error));
+  }).catch( (error) => console.error(error));
 
 }
 
