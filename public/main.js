@@ -21,13 +21,14 @@ const checkQuery = (event) => {
   // https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchInput.value}&types=(cities)&key=AIzaSyBtxEFPAkE58globccj3AP4vkgj7KMWUMI
   let testStr = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${event.target.value}&types=(cities)&key=${API_KEY_GOOGLE}`
   console.log(testStr);
-  fetch(testStr)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  });
+  let autoComplete = new google.maps.places.Autocomplete(searchInput);
+  // fetch(testStr)
+  // .then((response) => {
+  //   return response.json();
+  // })
+  // .then((data) => {
+  //   console.log(data);
+  // });
 
   if(searchTimeOut !== undefined) {
     clearTimeout(searchTimeOut);
@@ -51,7 +52,11 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
 
   fetch(searchQuery)
   .then((response) => {
-    return response.json();
+    console.log(response);
+    if(response.status !== 200) {
+      throw Error(response.statusText);
+    }
+      return response.json();
   })
   .then((data) => {
     if(isMainElement) {
@@ -61,7 +66,7 @@ const fetchAPIData = (searchParam, opt, isMainElement) => {
       handleData(data, weatherSection);
       weatherElement.appendChild(weatherSection);
     }
-  });
+  }).catch( (error) => console.log(error));
 
 }
 
